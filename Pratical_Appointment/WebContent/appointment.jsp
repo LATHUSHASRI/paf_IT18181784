@@ -1,5 +1,5 @@
 
- <%@ page import = "com.Appointment" %>
+ <%@page import = "com.Appointment" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" %>
@@ -16,6 +16,8 @@
 
 
 <link rel="stylesheet" href="View/bootstrap.min.css">
+<script src="Component/jquery-3.3.1.min.js"></script>
+<script src="Component/appointment.js"></script>
 
 </head>
 <body>
@@ -28,7 +30,7 @@
 		
 		
 		
-				<form id="formAppointment" name="formAppointment" method="post" action="appointment.jsp">
+				<form id="formAppointment" name="formAppointment">
 					Appointment Number:
 					<input id="Ano" name="Ano" type="text"
 								class="form-control form-control-sm">
@@ -48,24 +50,24 @@
 					<input id="btnSave" name="btnSave" type="button" value="Save"
 										class="btn btn-primary">
 					<input type="hidden" id="hidItemIDSave" name="hidItemIDSave" value="">
-				
-		
-					</form>
+				</form>
 				<div id="alertSuccess" class="alert alert-success"></div>
+					
 				<div id="alertError" class="alert alert-danger"></div>
 				<br>
+				<div id="divAppointmentsGrid">
 			
 				<%
 						Appointment appObj = new Appointment();
 						out.print(appObj.readPatients());
 				%>
+				</div>
 				
 			</div>
 
 		</div>
 	</div>
-	<script src="Component/jquery-3.3.1.min.js"></script>
-	<script src="Component/appointment.js"></script>
+	
 </body>
 </html>	
 			
