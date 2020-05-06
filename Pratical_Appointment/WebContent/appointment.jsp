@@ -5,45 +5,7 @@
     pageEncoding="ISO-8859-1" %>
     
   
-    
- <%   
- //Save---------------------------------
-if (request.getParameter("Ano") != null)
-{
-	Appointment appObj = new Appointment();
-	String stsMsg = "";
-	//Insert--------------------------
-	if (request.getParameter("hidItemIDSave") == "")
-	{
-		stsMsg = appObj.insertpatientapp(request.getParameter("Ano"),
-			request.getParameter("patientname"),
-			request.getParameter("Specialist"),
-			request.getParameter("Hospital"),
-			request.getParameter("Doctor"));
-	}
-else//Update----------------------
-	{
-		stsMsg = appObj.updateappointment(request.getParameter("hidItemIDSave"),
-			request.getParameter("Ano"),
-			request.getParameter("patientname"),
-			request.getParameter("Specialist"),
-			request.getParameter("Hospital"),
-			request.getParameter("Doctor"));
-	}
-	session.setAttribute("statusMsg", stsMsg);
-}
- 
- 
- 
-//Delete-----------------------------
-if (request.getParameter("hidItemIDDelete") != null)
-{
-	Appointment appObj = new Appointment();
-	String stsMsg = appObj.deleteAppointment(request.getParameter("hidItemIDDelete"));
-	session.setAttribute("statusMsg", stsMsg);
-}
 
-%>
 
    
 <!DOCTYPE html>
@@ -89,12 +51,7 @@ if (request.getParameter("hidItemIDDelete") != null)
 				
 		
 					</form>
-				<div id="alertSuccess" class="alert alert-success">
-					<%
-						out.print(session.getAttribute("statusMgs"));
-					%>
-				
-				</div>
+				<div id="alertSuccess" class="alert alert-success"></div>
 				<div id="alertError" class="alert alert-danger"></div>
 				<br>
 			
