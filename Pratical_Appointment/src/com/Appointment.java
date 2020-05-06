@@ -18,7 +18,7 @@ package com;
 		try
 		{
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		//Provide the correct details: DBServer/DBName, username, password
+		//Provide the correct details: DBServer/DBName, 
 		con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/project", "root", "");
 		}
 		catch (Exception e)
@@ -58,17 +58,27 @@ package com;
 		
 		con.close();
 		
-		output = "Inserted successfully";
+		
+		
+		String newAppointments = readPatients();
+		output = "{\"status\":\"success\", \"data\": \"" + newAppointments + "\"}";
 		}
 		
 		
 		catch (Exception e)
 		{
-			output = "Error while inserting the apointments.";
+			output = "{\"status\":\"error\", \"data\": \"Error while inserting the appointment.\"}";
 			System.err.println(e.getMessage());
 		}
 			return output;
 		}
+		
+		
+		
+		
+	
+		
+		
 		
 		
 		public String readPatients()
@@ -83,7 +93,8 @@ package com;
 		   {return "Error while connecting to the database for reading."; } 
 		 
 		   // Prepare the html table to be displayed   
-		   output = "<table border=\"1\"><tr><th>Appointment Number</th><th>Patient Name</th><th>Specialist</th><th>Hospital Name</th><th>Doctor Name </th><th>Update</th><th>Remove</th></tr>"; 
+		   output = "<table border='1'><tr><th>AppointmentNo</th> <th>Patient Name</th><th>Specialist</th><th>Hospital Name</th>"
+					+ "<th>Doctor Name</th><th>Update</th><th>Remove</th></tr>";
 		 
 		   String query = "select * from appointment";
 		   Statement stmt = con.createStatement();
@@ -102,19 +113,19 @@ package com;
 		 
 		    	// Add into the html table     
 		   		
-			   output += "<tr><td><input id=\"hidItemIDUpdate\" name=\"hidItemIDUpdate\" type=\"hidden\" value=\"" +AppointmentID + "\">" 
-					   + Ano + "</td>";
+			   output += "<tr><td><input id='hidItemIDUpdate' name='hidItemIDUpdate' type='hidden' value='"+ AppointmentID +"'>" 
+						+ Ano + "</td>";
+			  
 		   		output += "<td>" + patientname  + "</td>";
 		   		output += "<td>" + Specialist  + "</td>";
 		   		output += "<td>" + Hospital + "</td>";
 		   		output += "<td>" + Doctor + "</td>"; 
 		   		
 		   	// buttons     
-		   		output += "<td><input name=\"btnUpdate\" type=\"button\"value=\"Update\" class=\"btnUpdate btn-secondary\"></td>"
-		   				+ "<td><form method=\"post\" action=\"appointment.jsp\">"
-		   				+ "<input name=\"btnRemove\" type=\"submit\" value=\"Remove\"class=\"btn btn-danger\">"
-		   				+ "<input name=\"hidItemIDDelete\" type=\"hidden\" value=\"" + AppointmentID
-		   				+ "\">" + "</form></td></tr>";
+//		   		
+		   		output += "<td><input name='btnUpdate' type='button' value='Update' class='btnUpdate btn btn-secondary'></td>"
+						+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger' data-aid='"
+						+ AppointmentID + "'>" + "</td></tr>";
 		   		
 		   } 
 		 
@@ -132,10 +143,9 @@ package com;
 		  return output;  
 		  }
 		
-		//public List<Patient.java>
 		
 		
-		
+			
 		public String updateappointment(String AppointmentID,String Ano, String patientname, String Specialist, String Hospital, String Doctor)
 		{
 		String output = "";
@@ -157,39 +167,44 @@ package com;
 		// execute the statement
 		preparedStmt.execute();
 		con.close();
-		output = "Updated successfully";
+	
+		
+		String newAppointments = readPatients();
+		output = "{\"status\":\"success\", \"data\": \"" +
+				newAppointments + "\"}";
 		}
 		catch (Exception e)
 		{
-		output = "Error while updating the item.";
-		System.err.println(e.getMessage());
+			output = "{\"status\":\"error\", \"data\": \"Error while updating the appointment.\"}";
+			System.err.println(e.getMessage());
 		}
 		return output;
 		}
-		public String deleteAppointment(String AppointmentID)
-		{
-		String output = "";
-		try
-		{
-		Connection con = connect();
-		if (con == null)
-		{return "Error while connecting to the database for deleting."; }
-		// create a prepared statement
-		String query = "delete from appointment where AppointmentID=?";
-		PreparedStatement preparedStmt = con.prepareStatement(query);
-		// binding values
-		preparedStmt.setInt(1, Integer.parseInt(AppointmentID));
-		// execute the statement
-		preparedStmt.execute();
-		con.close();
-		output = "Deleted successfully";
-		}
-		catch (Exception e)
-		{
-		output = "Error while deleting the item.";
-		System.err.println(e.getMessage());
-		}
-		return output;
+		
+		
+		
+		public String deleteAppointment(String AppointmentID) {
+			String output = "";
+			try {
+				Connection con = connect();
+				if (con == null) {
+					return "Error while connecting to the database for deleting.";
+				}
+				// create a prepared statement
+				String query = "delete from appointment where AppointmentID=?";
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+				// binding values
+				preparedStmt.setInt(1, Integer.parseInt(AppointmentID));
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				String newAppointments = readPatients();
+				output = "{\"status\":\"success\", \"data\": \"" + newAppointments + "\"}";
+			} catch (Exception e) {
+				output = "{\"status\":\"error\", \"data\": \"Error while deleting the item.\"}";
+				System.err.println(e.getMessage());
+			}
+			return output;
 		}
 		
 		

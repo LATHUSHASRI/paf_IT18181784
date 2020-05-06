@@ -1,49 +1,11 @@
 
- <%@ page import = "com.Appointment" %>
+ <%@page import = "com.Appointment" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" %>
     
   
-    
- <%   
- //Save---------------------------------
-if (request.getParameter("Ano") != null)
-{
-	Appointment appObj = new Appointment();
-	String stsMsg = "";
-	//Insert--------------------------
-	if (request.getParameter("hidItemIDSave") == "")
-	{
-		stsMsg = appObj.insertpatientapp(request.getParameter("Ano"),
-			request.getParameter("patientname"),
-			request.getParameter("Specialist"),
-			request.getParameter("Hospital"),
-			request.getParameter("Doctor"));
-	}
-else//Update----------------------
-	{
-		stsMsg = appObj.updateappointment(request.getParameter("hidItemIDSave"),
-			request.getParameter("Ano"),
-			request.getParameter("patientname"),
-			request.getParameter("Specialist"),
-			request.getParameter("Hospital"),
-			request.getParameter("Doctor"));
-	}
-	session.setAttribute("statusMsg", stsMsg);
-}
- 
- 
- 
-//Delete-----------------------------
-if (request.getParameter("hidItemIDDelete") != null)
-{
-	Appointment appObj = new Appointment();
-	String stsMsg = appObj.deleteAppointment(request.getParameter("hidItemIDDelete"));
-	session.setAttribute("statusMsg", stsMsg);
-}
 
-%>
 
    
 <!DOCTYPE html>
@@ -54,6 +16,8 @@ if (request.getParameter("hidItemIDDelete") != null)
 
 
 <link rel="stylesheet" href="View/bootstrap.min.css">
+<script src="Component/jquery-3.3.1.min.js"></script>
+<script src="Component/appointment.js"></script>
 
 </head>
 <body>
@@ -66,7 +30,7 @@ if (request.getParameter("hidItemIDDelete") != null)
 		
 		
 		
-				<form id="formAppointment" name="formAppointment" method="post" action="appointment.jsp">
+				<form id="formAppointment" name="formAppointment">
 					Appointment Number:
 					<input id="Ano" name="Ano" type="text"
 								class="form-control form-control-sm">
@@ -86,29 +50,24 @@ if (request.getParameter("hidItemIDDelete") != null)
 					<input id="btnSave" name="btnSave" type="button" value="Save"
 										class="btn btn-primary">
 					<input type="hidden" id="hidItemIDSave" name="hidItemIDSave" value="">
-				
-		
-					</form>
-				<div id="alertSuccess" class="alert alert-success">
-					<%
-						out.print(session.getAttribute("statusMgs"));
-					%>
-				
-				</div>
+				</form>
+				<div id="alertSuccess" class="alert alert-success"></div>
+					
 				<div id="alertError" class="alert alert-danger"></div>
 				<br>
+				<div id="divAppointmentsGrid">
 			
 				<%
 						Appointment appObj = new Appointment();
 						out.print(appObj.readPatients());
 				%>
+				</div>
 				
 			</div>
 
 		</div>
 	</div>
-	<script src="Component/jquery-3.3.1.min.js"></script>
-	<script src="Component/appointment.js"></script>
+	
 </body>
 </html>	
 			
