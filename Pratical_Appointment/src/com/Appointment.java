@@ -93,8 +93,8 @@ package com;
 		   {return "Error while connecting to the database for reading."; } 
 		 
 		   // Prepare the html table to be displayed   
-		   output = "<table border='1'><tr><th>Item Code</th> <th>Item Name</th><th>Item Price</th><th>Item De</th>"
-					+ "<th>Item Description</th><th>Update</th><th>Remove</th></tr>";
+		   output = "<table border='1'><tr><th>AppointmentNo</th> <th>Patient Name</th><th>Specialist</th><th>Hospital Name</th>"
+					+ "<th>Doctor Name</th><th>Update</th><th>Remove</th></tr>";
 		 
 		   String query = "select * from appointment";
 		   Statement stmt = con.createStatement();
